@@ -31,17 +31,21 @@ class Mybots:
         print('First Name\t:', about_bot['first_name'])
 
     def get_updates(self):
-        get_updates = self.get_json("/getUpdates")
-        return get_updates
+        try:
+            get_updates = self.get_json("/getUpdates")
+            return get_updates
+        except IndexError:
+            print("No new messages in the server.")
 
     def get_last_message_parameters(self):
         messages = self.get_updates()
         total_message = len(messages)
-        g_last_message = total_message - 1
-        g_text = messages[g_last_message]["message"]["text"]
-        g_name = messages[g_last_message]["message"]["chat"]["first_name"]
-        g_chat_id = messages[g_last_message]["message"]["chat"]["id"]
-        return g_name, g_chat_id, g_text
+        if total_message != 0:
+            g_last_message = total_message - 1
+            g_text = messages[g_last_message]["message"]["text"]
+            g_name = messages[g_last_message]["message"]["chat"]["first_name"]
+            g_chat_id = messages[g_last_message]["message"]["chat"]["id"]
+            return g_name, g_chat_id, g_text
 
     def populate_contacts(self, action='update'):
         messages = self.get_updates()
@@ -101,9 +105,10 @@ class Mybots:
     @classmethod
     def bot_create(cls, bot_name):
         print("Creating the bot")
-        with open(bot_name+"_contacts.txt",'w') as file:
+        with open(bot_name + "_contacts.txt", 'w') as file:
             pass
         bot = cls(Bots[bot_name], bot_name)
+        bot.bot_info()
         print("Bot " + bot_name + " created")
         return bot
 
