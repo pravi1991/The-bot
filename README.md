@@ -1,7 +1,7 @@
 # The-bot
 
 Added telegram bot for the simple bot chat applications.
- Functions:\n
+ <br>Functions:</br>
 	1.Bot Information.
 	2.Getting all updates.
 	3.Get last message parameters like first name, id, text.
